@@ -1,0 +1,12 @@
+{
+  "name": "function",
+  "version": "1.0.0",
+  "description": "Nitric Node 12 Example Function",
+  "author": "Nitric <https://github.com/nitric-dev>",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+    "@nitric/sdk": "latest"
+  },
+  "license": "UNLICENSED"
+}

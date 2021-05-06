@@ -1,0 +1,10 @@
+# Ignore IDE files
+/.settings/
+/.idea/
+/.vscode/
+/.classpath
+/.project
+
+# Ignore build files
+/target/
+/dependency-reduced-pom.xml

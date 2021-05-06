@@ -1,0 +1,8 @@
+node_modules/
+*.min.js
+*.tsbuildinfo
+
+function/*.lock
+
+*.d.ts
+*.js.map
