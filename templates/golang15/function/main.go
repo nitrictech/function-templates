@@ -1,6 +1,6 @@
 package main
 
-import "github.com/nitrictech/go-sdk/v1/faas"
+import "github.com/nitrictech/go-sdk/faas"
 
 // NitricFunction - Handles individual function requests (http, events, etc.)
 func NitricFunction(request *faas.NitricRequest) *faas.NitricResponse {
