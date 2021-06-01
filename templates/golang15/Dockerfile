@@ -20,19 +20,16 @@ RUN git config --global url.https://$ACCESS_TOKEN:x-oauth-basic@github.com/.inst
 RUN go env -w GOPRIVATE="github.com/nitrictech"
 
 # Copy dependency files
-COPY /function/go.mod /function/go.sum /function/
-
-# Move into the function folder
-WORKDIR /function
+COPY go.mod go.sum /
 
 # Install go dependencies
 RUN go mod download
 
 # Copy the function source
-COPY /function/ .
+COPY . .
 
 # Build the function binary
-RUN CGO_ENABLED=0 GOOS=linux go build -o /bin/function /function/${HANDLER}
+RUN CGO_ENABLED=0 GOOS=linux go build -o /bin/function ${HANDLER}
 
 # Fresh image to remove go build packages
 FROM alpine

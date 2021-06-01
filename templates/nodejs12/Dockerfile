@@ -20,16 +20,15 @@ ENV PATH="/usr/local/bin:${PATH}"
 # Copy and install dependencies before function code
 # this avoids reinstalling unchanged dependencies on each code change
 
-COPY ./function/package.json /package.json
-COPY ./function/*.lock Dockerfile /
-COPY ./function/*-lock.json Dockerfile /
+COPY package.json /package.json
+COPY *.lock *-lock.json package.json /
 
 RUN yarn import || echo "Lockfile already exists"
 
 RUN yarn install --production --frozen-lockfile
 
 # Install the userland function code.
-COPY ./function/ .
+COPY . .
 
 # Expose the gateways proxy port
 EXPOSE 9001/tcp
