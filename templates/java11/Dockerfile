@@ -28,7 +28,10 @@ ARG TARGET_JAR=target/hello-world-1.0.jar
 COPY --from=membrane /membrane /usr/local/bin/membrane
 RUN chmod +x-rw /usr/local/bin/membrane
 
-COPY --from=maven ${TARGET_JAR} ${TARGET_JAR}
+COPY --from=maven ${TARGET_JAR} function.jar
+
+# TODO: replace with staged nitric.yaml
+COPY ./nitric/nitric.yaml .nitric/nitric.yaml
 
 # Expose the gateways proxy port
 EXPOSE 9001/tcp
@@ -42,4 +45,4 @@ WORKDIR /
 ENTRYPOINT ["/usr/local/bin/membrane"]
 
 # Set membrane child process command and args
-CMD ["java", "-jar", "${TARGET_JAR}"]
+CMD ["java", "-jar", "function.jar"]
