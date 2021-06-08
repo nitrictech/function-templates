@@ -10,29 +10,21 @@ RUN apk upgrade
 # RUN apk add --update go=1.8.3-r0 gcc=6.3.0-r4 g++=6.3.0-r4
 RUN apk add --no-cache git gcc g++ make
 
-RUN mkdir /function
-
-# FIXME: Remove this once the repo is public
-# Setup private github repo access
-# Command line arg to set GitHub access token: docker build --build-arg ACCES_TOKEN=0123456789 .
-ARG ACCESS_TOKEN
-RUN git config --global url.https://$ACCESS_TOKEN:x-oauth-basic@github.com/.insteadOf https://github.com/
-RUN go env -w GOPRIVATE="github.com/nitrictech"
+WORKDIR /app/
 
 # Copy dependency files
-COPY /function/go.mod /function/go.sum /function/
-
-# Move into the function folder
-WORKDIR /function
+COPY go.mod go.sum /
 
 # Install go dependencies
 RUN go mod download
 
 # Copy the function source
-COPY /function/ .
+COPY . .
+
+WORKDIR /
 
 # Build the function binary
-RUN CGO_ENABLED=0 GOOS=linux go build -o /bin/function /function/${HANDLER}
+RUN CGO_ENABLED=0 GOOS=linux go build -o /bin/function /app/${HANDLER}
 
 # Fresh image to remove go build packages
 FROM alpine

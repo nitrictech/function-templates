@@ -11,7 +11,7 @@ FROM maven:3-openjdk-11 as maven
 COPY settings.xml /root/.m2/settings.xml
 
 # download maven plugins
-COPY ./function/pom.xml ./pom.xml
+COPY pom.xml pom.xml
 RUN mvn de.qaware.maven:go-offline-maven-plugin:resolve-dependencies
 
 # build for release
