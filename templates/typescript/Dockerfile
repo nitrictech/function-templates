@@ -2,15 +2,13 @@ ARG PROVIDER=local
 FROM nitricimages/membrane-${PROVIDER}:latest as membrane
 FROM node:alpine as build
 
-ENV YARN_CACHE_FOLDER=/dev/shm/yarn_cache
-
 # Copy and install dependencies before function code
 # this avoids reinstalling unchanged dependencies on each code change
 COPY package.json *.lock *-lock.json /
 
 RUN yarn import || echo "Lockfile already exists"
 
-RUN yarn install --frozen-lockfile
+RUN set -ex; yarn install --frozen-lockfile --cache-folder /tmp/.cache; rm -rf /tmp/.cache;
 # Copy sources
 COPY . .
 # Build it
@@ -19,14 +17,13 @@ RUN yarn build
 # Final Image
 FROM node:alpine
 RUN apk --no-cache add ca-certificates
-ENV YARN_CACHE_FOLDER=/dev/shm/yarn_cache
 
 # Add the membrane server binary and plugins
 COPY --from=membrane /membrane /usr/local/bin/membrane
 RUN chmod +x-rw /usr/local/bin/membrane
 
-COPY --from=build .npmrc package.json *.lock /
-RUN yarn install --production --frozen-lockfile
+COPY --from=build package.json *.lock /
+RUN set -ex; yarn install --production --frozen-lockfile --cache-folder /tmp/.cache; rm -rf /tmp/.cache;
 
 COPY --from=build /lib/ .
 
