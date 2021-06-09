@@ -1,41 +1,29 @@
-
 ARG PROVIDER=local
 FROM nitricimages/membrane-${PROVIDER}:latest as membrane
 FROM node:alpine as build
 
-# FIXME: Remove once the @nitric/sdk package is made public
-# Token should be read-only and revoked once this package is public
-ARG NPM_TOKEN
-ENV YARN_CACHE_FOLDER=/dev/shm/yarn_cache
-
 # Copy and install dependencies before function code
 # this avoids reinstalling unchanged dependencies on each code change
-COPY ./function/package.json /package.json
-COPY ./function/*.lock Dockerfile /
-COPY ./function/*-lock.json Dockerfile /
-
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+COPY package.json *.lock *-lock.json /
 
 RUN yarn import || echo "Lockfile already exists"
 
-RUN yarn install --frozen-lockfile
+RUN set -ex; yarn install --frozen-lockfile --cache-folder /tmp/.cache; rm -rf /tmp/.cache;
 # Copy sources
-COPY /function .
+COPY . .
 # Build it
 RUN yarn build
 
+# Final Image
 FROM node:alpine
 RUN apk --no-cache add ca-certificates
-ENV YARN_CACHE_FOLDER=/dev/shm/yarn_cache
 
 # Add the membrane server binary and plugins
 COPY --from=membrane /membrane /usr/local/bin/membrane
 RUN chmod +x-rw /usr/local/bin/membrane
 
-COPY --from=build .npmrc .npmrc
-COPY --from=build package.json package.json
-COPY --from=build Dockerfile *.lock /
-RUN yarn install --production --frozen-lockfile
+COPY --from=build package.json *.lock /
+RUN set -ex; yarn install --production --frozen-lockfile --cache-folder /tmp/.cache; rm -rf /tmp/.cache;
 
 COPY --from=build /lib/ .
 

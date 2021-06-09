@@ -2,14 +2,6 @@ ARG PROVIDER=local
 FROM nitricimages/membrane-${PROVIDER}:latest as membrane
 FROM node:alpine
 
-# FIXME: Remove once the @nitric/sdk package is made public
-# Token should be read-only and revoked once this package is public
-ARG NPM_TOKEN
-
-# Copy and install dependencies before function code
-# this avoids reinstalling unchanged dependencies on each code change
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-
 # Add the membrane server binary and plugins
 COPY --from=membrane /membrane /usr/local/bin/membrane
 RUN chmod +x-rw /usr/local/bin/membrane
@@ -19,17 +11,15 @@ ENV PATH="/usr/local/bin:${PATH}"
 
 # Copy and install dependencies before function code
 # this avoids reinstalling unchanged dependencies on each code change
-
-COPY ./function/package.json /package.json
-COPY ./function/*.lock Dockerfile /
-COPY ./function/*-lock.json Dockerfile /
+COPY package.json /package.json
+COPY *.lock *-lock.json package.json /
 
 RUN yarn import || echo "Lockfile already exists"
 
-RUN yarn install --production --frozen-lockfile
+RUN RUN set -ex; yarn install --production --frozen-lockfile --cache-folder /tmp/.cache; rm -rf /tmp/.cache;
 
 # Install the userland function code.
-COPY ./function/ .
+COPY . .
 
 # Expose the gateways proxy port
 EXPOSE 9001/tcp

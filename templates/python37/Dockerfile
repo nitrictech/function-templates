@@ -11,16 +11,14 @@ ENV PATH="/usr/local/bin:${PATH}"
 
 # Copy and install dependencies before function code
 # this avoids reinstalling unchanged dependencies on each code change
-COPY ./function/requirements.txt /function/requirements.txt
-WORKDIR /function
+COPY requirements.txt requirements.txt
+WORKDIR /
 
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-WORKDIR /
-
 # Install the userland function code.
-COPY ./function/ ./function/
+COPY . .
 
 # Expose the gateways proxy port
 EXPOSE 9001/tcp
@@ -30,4 +28,4 @@ EXPOSE 9001/tcp
 # full path Entrypoint required for AWS Lambda
 ENTRYPOINT ["/usr/local/bin/membrane"]
 # CMD required for AWS Lambda, this input is ignored by the membrane.
-CMD ["python", "/function/index.py"]
+CMD ["python", "index.py"]
