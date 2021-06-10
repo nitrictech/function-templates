@@ -1,16 +1,16 @@
 templates:
-  - name: golang15
-    lang: golang
-    path: /templates/golang15
-  - name: python37
-    lang: python
-    path: /templates/python37
-  - name: nodejs12
-    lang: javascript
-    path: /templates/nodejs12
   - name: nodets12
     lang: typescript
     path: /templates/typescript
+  - name: nodejs12
+    lang: javascript
+    path: /templates/nodejs12
+  - name: python37
+    lang: python
+    path: /templates/python37
   - name: java11
     lang: java
     path: /templates/java11
+  - name: golang15
+    lang: golang
+    path: /templates/golang15
