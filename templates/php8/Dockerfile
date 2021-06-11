@@ -21,15 +21,13 @@ RUN addgroup -S nitric && adduser -S -g nitric nitric && \
 
 WORKDIR /home/nitric
 
-COPY ./function/composer.json ./function/composer.json
-COPY ./function/composer.lock ./function/composer.lock
+COPY ./composer.json *.lock ./
 
 # Composer requirements
 # TODO: Do we need this?
-ARG COMPOSER_AUTH='{}'
-ENV COMPOSER_AUTH=${COMPOSER_AUTH}
+# ARG COMPOSER_AUTH='{}'
+# ENV COMPOSER_AUTH=${COMPOSER_AUTH}
 
-WORKDIR /home/nitric/function
 RUN chown -R nitric /home/nitric
 
 USER nitric
@@ -37,12 +35,8 @@ USER nitric
 # Install Composer Dependecies
 RUN [[ -f composer.lock || -f composer.json ]] && composer install --no-dev
 
-WORKDIR /home/nitric
-
 # Install the userland function code.
-COPY ./function/ ./function/
-
-WORKDIR /home/nitric/function
+COPY . .
 
 # Expose the gateways proxy port
 EXPOSE 9001/tcp
