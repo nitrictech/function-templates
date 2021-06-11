@@ -43,7 +43,6 @@ WORKDIR /home/nitric
 COPY ./function/ ./function/
 
 WORKDIR /home/nitric/function
-ENV INVOKE="php index.php"
 
 # Expose the gateways proxy port
 EXPOSE 9001/tcp
@@ -52,5 +51,6 @@ EXPOSE 9001/tcp
 # This process will load membrane provider plugins and kick-off the userland process
 # full path Entrypoint required for AWS Lambda
 ENTRYPOINT ["/usr/local/bin/membrane"]
-# CMD required for AWS Lambda, this input is ignored by the membrane.
-CMD ["todo"]
+
+# Set membrane child process command and args
+CMD ["php", "index.php"]
