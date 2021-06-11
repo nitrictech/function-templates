@@ -1,0 +1,12 @@
+{
+    "name": "example/function",
+    "description": "An example Nitric Function in PHP",
+    "type": "project",
+    "authors": [
+        {
+            "name": "You",
+            "email": "awesome@example.com"
+        }
+    ],
+    "require": {}
+}
