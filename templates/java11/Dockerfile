@@ -7,15 +7,12 @@ FROM nitricimages/membrane-${PROVIDER}:latest as membrane
 # Build JAR
 FROM maven:3-openjdk-11 as maven
 
-# TODO: remove once Nitric Java SDK publically hosted
-COPY settings.xml /root/.m2/settings.xml
-
 # download maven plugins
-COPY pom.xml pom.xml
+COPY ./pom.xml pom.xml
 RUN mvn de.qaware.maven:go-offline-maven-plugin:resolve-dependencies
 
-# build for release
-COPY ./function/src ./src
+# build function JAR file
+COPY ./src ./src
 RUN mvn clean package
 
 ####
@@ -30,8 +27,7 @@ RUN chmod +x-rw /usr/local/bin/membrane
 
 COPY --from=maven ${TARGET_JAR} function.jar
 
-# TODO: replace with staged nitric.yaml
-COPY ./nitric/nitric.yaml .nitric/nitric.yaml
+COPY .nitric/nitric.yaml .nitric/nitric.yaml
 
 # Expose the gateways proxy port
 EXPOSE 9001/tcp
