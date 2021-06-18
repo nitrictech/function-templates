@@ -1,8 +1,8 @@
-from nitric.faas import start, Request, Response
+from nitric.faas import start, Trigger, Response
 
 
-def handler(request: Request) -> Response:
-    return Response("Python 3.7 Success!")
+def handler(request: Trigger):
+    return "Hello Python 3.7"
 
 
 if __name__ == "__main__":

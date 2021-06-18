@@ -36,6 +36,8 @@ EXPOSE 9001/tcp
 # AWS Lambda requires the working directory to be explicitly set
 WORKDIR /
 
+ENV MEMBRANE_MODE="HTTP_FAAS"
+
 # Run the Nitric Membrane
 # This process will load membrane provider plugins and kick-off the userland process
 # full path Entrypoint required for AWS Lambda
