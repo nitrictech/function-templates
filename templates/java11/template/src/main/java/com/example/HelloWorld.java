@@ -9,7 +9,7 @@ public class HelloWorld implements NitricFunction {
 
     @Override
     public Response handle(Trigger trigger) {
-        return trigger.defaultResponse("Hello World".getBytes());
+        return trigger.buildResponse("Hello World");
     }
 
 }
