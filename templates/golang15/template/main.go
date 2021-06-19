@@ -3,12 +3,12 @@ package main
 import "github.com/nitrictech/go-sdk/faas"
 
 // NitricFunction - Handles individual function requests (http, events, etc.)
-func NitricFunction(request *faas.NitricRequest) *faas.NitricResponse {
+func NitricFunction(trigger *faas.NitricTrigger) *faas.NitricResponse {
 	// Do something interesting...
-	return &faas.NitricResponse{
-		Status: 200,
-		Body:   []byte("Hello Nitric"),
-	}
+	response := trigger.DefaultResponse()
+	response.SetData([]byte("Hello Nitric"))
+
+	return response
 }
 
 func main() {

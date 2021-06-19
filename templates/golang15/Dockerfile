@@ -13,7 +13,7 @@ RUN apk add --no-cache git gcc g++ make
 WORKDIR /app/
 
 # Copy dependency files
-COPY go.mod go.sum /
+COPY go.mod *.sum /
 
 # Install go dependencies
 RUN go mod download
