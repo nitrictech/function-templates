@@ -1,7 +1,14 @@
 ARG PROVIDER=local
 FROM composer:2.0 AS composer
 FROM nitricimages/membrane-${PROVIDER}:latest as membrane
+FROM nitricimages/php8.0-grpc-ext:latest as grpc
 FROM php:8.0-alpine as build
+
+RUN apk add --no-cache libstdc++
+COPY --from=grpc /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+RUN docker-php-ext-enable grpc
+RUN docker-php-ext-enable protobuf
+RUN docker-php-ext-install pcntl
 
 # Add the membrane server binary and plugins
 COPY --from=membrane /membrane /usr/local/bin/membrane
@@ -22,11 +29,6 @@ RUN addgroup -S nitric && adduser -S -g nitric nitric && \
 WORKDIR /home/nitric
 
 COPY ./composer.json *.lock ./
-
-# Composer requirements
-# TODO: Do we need this?
-# ARG COMPOSER_AUTH='{}'
-# ENV COMPOSER_AUTH=${COMPOSER_AUTH}
 
 RUN chown -R nitric /home/nitric
 
