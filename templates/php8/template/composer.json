@@ -8,5 +8,7 @@
             "email": "awesome@example.com"
         }
     ],
-    "require": {}
+    "require": {
+        "nitric/php-sdk": "^v0.1.0"
+    }
 }
