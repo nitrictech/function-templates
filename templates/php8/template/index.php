@@ -10,6 +10,6 @@ use Nitric\Faas\Faas;
 $handler = function(Request $request): string
 {
 	return "Nitric PHP 8 Template - Success";
-}
+};
 
 Faas::start($handler);
