@@ -14,3 +14,6 @@ templates:
   - name: golang15
     lang: golang
     path: /templates/golang15
+  - name: php8
+    lang: php
+    path: /templates/php8
