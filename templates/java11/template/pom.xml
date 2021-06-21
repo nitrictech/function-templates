@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>hello-world</artifactId>
+    <artifactId>handler</artifactId>
     <version>1.0</version>
 
     <properties>        
@@ -66,7 +66,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.example.HelloWorld</mainClass>
+                            <mainClass>com.example.Handler</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
