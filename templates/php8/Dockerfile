@@ -23,16 +23,12 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN apk add --no-cache git
 
 # create non-root user
-RUN addgroup -S nitric && adduser -S -g nitric nitric && \
-    mkdir -p /home/nitric
+# RUN addgroup -S nitric && adduser -S -g nitric nitric && \
+RUN mkdir -p /home/nitric
 
 WORKDIR /home/nitric
 
 COPY ./composer.json *.lock ./
-
-RUN chown -R nitric /home/nitric
-
-USER nitric
 
 # Install Composer Dependecies
 RUN [[ -f composer.lock || -f composer.json ]] && composer install --no-dev
