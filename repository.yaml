@@ -11,6 +11,9 @@ templates:
   - name: java11
     lang: java
     path: /templates/java11
+  - name: csharp
+    lang: csharp
+    path: /templates/dotnet
   - name: golang15
     lang: golang
     path: /templates/golang15
