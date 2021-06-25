@@ -6,7 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.15.6" />
+    <PackageReference Include="Grpc" Version="2.36.4" />
     <PackageReference Include="Nitric" Version="0.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="src\" />
   </ItemGroup>
 
 </Project>
