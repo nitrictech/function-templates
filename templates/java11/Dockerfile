@@ -27,9 +27,6 @@ RUN chmod +x-rw /usr/local/bin/membrane
 
 COPY --from=maven ${TARGET_JAR} function.jar
 
-# TODO: need CLI update to stage the parent directory nitric.yaml file
-# COPY .nitric/nitric.yaml .nitric/nitric.yaml
-
 # Expose the gateways proxy port
 EXPOSE 9001/tcp
 
