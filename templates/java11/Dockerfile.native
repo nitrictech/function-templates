@@ -19,7 +19,8 @@ RUN mvn clean package
 # Build native image using GraalVM
 FROM springci/graalvm-ce:stable-java11-0.9.x as graalvm
 
-ARG TARGET_JAR=target/hello-world-1.0.jar
+ARG TARGET_JAR=target/handler-1.0.jar
+
 COPY --from=maven ${TARGET_JAR} ${TARGET_JAR}
 
 RUN native-image --verbose --no-fallback --static -jar ${TARGET_JAR} target/function
@@ -40,6 +41,9 @@ EXPOSE 9001/tcp
 
 # AWS Lambda requires the working directory to be explicitly set
 WORKDIR /
+
+# Membrane integration mode [ "FAAS" | "HTTP_PROXY" ]
+ENV MEMBRANE_MODE="FAAS"
 
 # Run the Nitric Membrane
 # This process will load membrane provider plugins and kick-off the userland process
