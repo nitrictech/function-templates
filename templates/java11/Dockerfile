@@ -17,7 +17,7 @@ RUN mvn clean package
 
 ####
 # Build production image
-FROM adoptopenjdk/openjdk11:x86_64-alpine-jre-11.0.10_9
+FROM adoptopenjdk/openjdk11:x86_64-alpine-jre-11.0.11_9
 
 ARG TARGET_JAR=target/handler-1.0.jar
 
