@@ -9,6 +9,6 @@
         }
     ],
     "require": {
-        "nitric/php-sdk": "^v0.1.0"
+        "nitric/php-sdk": "^v0.2.0"
     }
 }
