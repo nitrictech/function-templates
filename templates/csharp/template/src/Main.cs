@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using Nitric.Faas;
 
-namespace NitricTemplate
+namespace Function
 {
-    class HelloWorld : INitricFunction
+    class Handler : INitricFunction
     {
         public Response Handle(Trigger trigger){
             return trigger.DefaultResponse(

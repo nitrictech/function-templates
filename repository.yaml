@@ -13,7 +13,7 @@ templates:
     path: /templates/java11
   - name: csharp
     lang: csharp
-    path: /templates/dotnet
+    path: /templates/csharp
   - name: golang15
     lang: golang
     path: /templates/golang15
