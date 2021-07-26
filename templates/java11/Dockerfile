@@ -17,7 +17,7 @@ RUN mvn clean package
 
 ####
 # Build production image
-FROM adoptopenjdk/openjdk11:x86_64-alpine-jre-11.0.10_9
+FROM adoptopenjdk/openjdk11:x86_64-alpine-jre-11.0.11_9
 
 ARG TARGET_JAR=target/handler-1.0.jar
 
@@ -27,16 +27,14 @@ RUN chmod +x-rw /usr/local/bin/membrane
 
 COPY --from=maven ${TARGET_JAR} function.jar
 
-# TODO: need CLI update to stage the parent directory nitric.yaml file
-# COPY .nitric/nitric.yaml .nitric/nitric.yaml
-
 # Expose the gateways proxy port
 EXPOSE 9001/tcp
 
 # AWS Lambda requires the working directory to be explicitly set
 WORKDIR /
 
-ENV MEMBRANE_MODE="HTTP_FAAS"
+# Membrane integration mode [ "FAAS" | "HTTP_PROXY" ]
+ENV MEMBRANE_MODE="FAAS"
 
 # Run the Nitric Membrane
 # This process will load membrane provider plugins and kick-off the userland process
