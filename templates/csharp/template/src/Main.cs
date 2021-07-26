@@ -12,7 +12,7 @@ namespace Function
         }
         static void Main(string[] args)
         {
-            Faas.Start(new HelloWorld());
+            Faas.Start(new Handler());
         }
     }
 }
