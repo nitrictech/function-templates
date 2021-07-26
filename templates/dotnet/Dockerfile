@@ -24,7 +24,11 @@ WORKDIR /
 COPY --from=membrane /membrane /usr/local/bin/membrane
 RUN chmod +x-rw /usr/local/bin/membrane
 
-COPY --from=build /publish/Function function
+# Copy all files from publish directory to the root.
+RUN mkdir Function
+COPY --from=build /publish ./Function
+RUN chmod +x -R ./Function
+
 
 EXPOSE 9001/tcp
 
@@ -36,4 +40,5 @@ ENV MEMBRANE_MODE="HTTP_FAAS"
 ENTRYPOINT ["/usr/local/bin/membrane"]
 
 # CMD required for AWS Lambda, this input is ignored by the membrane.
-CMD ["./function"]
+CMD ["./Function/Function"]
+
