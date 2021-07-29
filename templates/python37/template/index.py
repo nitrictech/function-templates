@@ -1,7 +1,8 @@
+from typing import Union
 from nitric.faas import start, Trigger, Response
 
 
-def handler(request: Trigger):
+async def handler(request: Trigger) -> Union[Response, dict, str]:
     return "Hello Python 3.7"
 
 
