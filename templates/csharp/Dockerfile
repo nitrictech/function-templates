@@ -32,7 +32,7 @@ RUN chmod +x -R ./Function
 
 EXPOSE 9001/tcp
 
-ENV MEMBRANE_MODE="HTTP_FAAS"
+#ENV MEMBRANE_MODE="HTTP_FAAS"
 
 # Run the Nitric Membrane
 # This process will load membrane provider plugins and kick-off the userland process
