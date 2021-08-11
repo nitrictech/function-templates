@@ -1,0 +1,24 @@
+name: Build & Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout git
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      # Setup Docker
+      - name: Install Docker
+        uses: docker-practice/actions-setup-docker@master
+      # Build each of the images
+      - name: Test Builds
+        run: make
